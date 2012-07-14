@@ -7,12 +7,12 @@ the **summary** area.
 The _notes_ area is the dominant area and intended represent a lecture
 or some content as thoroughly as possible, but still concise.
 
-The _cue_ area contains the reduced-down ideas derived from the notes.
+The _cues_ area contains the reduced-down ideas derived from the notes.
 This should include keywords, brief statements, and questions about the
 notes.
 
 The _summary_ area contains, in your own words, a summarization of the
-notes and cue content.
+notes and cues content.
 
 The general flow of filling out the page includes:
 
@@ -34,32 +34,11 @@ The general flow of filling out the page includes:
 
 ### Features for hackers
 
-- Documents are stored in a flat file broken up by section, i.e.
-
-```
-Title: My First Note
-Author: Byron Ruth
-Date: July 14, 2012
-
-# (title)...
-
-# Notes
-
-...
-
-# Cue
-
-...
-
-# Summary
-
-...
-```
-
+- Each _document_ is a filesystem directory consisting of three files, `notes.md`,
+`cues.md`, and `summary.md` representing each section.
 - The flat files are stored and versioned using [Git](http://git-scm.com/)
 - You can clone your git repo, make changes and push the changes back. Changes
 will show up in the Web UI
-
 
 ## Repo structure
 
@@ -70,11 +49,17 @@ repo/
     2012/
         06/
             01/
-                bio101-lecture-1.md
+                bio101-lecture-1/
+                    cues.md
+                    notes.md
+                    summary.md
                 ...
         07/
             14/
-                cs212-lecture-3.md
+                cs212-lecture-3/
+                    cues.md
+                    notes.md
+                    summary.md
                 ...
 ```
 
