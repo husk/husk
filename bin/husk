@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import husk
+
+if __name__ == '__main__':
+    husk.main(husk.parser.parse_args())
