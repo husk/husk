@@ -1,0 +1,29 @@
+# vim:ft=dosini
+
+[notes]
+
+# File extension of notes files
+extension = md
+
+[notifications]
+
+# Enable notifications to keep track of and receive alerts when
+# notes are ready to be reviewed.
+enabled = true
+
+# Daily for the first X days
+days = 6
+
+# Weekly for the next Y weeks
+weeks = 3
+
+# Weekly for the next Z months
+months = 11
+
+[contact]
+
+# Personalize your email notifications
+# name = John Doe
+
+# Address for sending email notifications
+# email = jdoe@example.com

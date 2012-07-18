@@ -1,24 +1,13 @@
-import os
 from argparse import ArgumentParser
-from husk.config import check_config
+from husk.repo import Repo
 
 
 parser = ArgumentParser()
 
 parser.add_argument('path', help='Path to notes directory')
-parser.add_argument('-d', '--desc', help='Short description of notes')
-
-
-def add(path):
-    config = check_config()
-    abspath = os.path.join(config.path, path)
-    if os.path.exists(abspath):
-        raise IOError('Directory already exists')
-    os.makedirs(abspath)
-    open(os.path.join(abspath, 'notes.txt'), 'w').close()
-    open(os.path.join(abspath, 'cues.txt'), 'w').close()
-    open(os.path.join(abspath, 'summary.txt'), 'w').close()
+parser.add_argument('-r', '--repo', help='Path to Husk repository')
 
 
 def main(options):
-    add(options.path)
+    repo = Repo(options.repo)
+    repo.add_note(options.path)

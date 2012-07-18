@@ -1,20 +1,15 @@
-import os
 from argparse import ArgumentParser
-from husk.config import HUSK_CONFIG_DIR
-
-
-def init(path):
-    config_path = os.path.join(path, HUSK_CONFIG_DIR)
-    if os.path.exists(config_path):
-        raise Exception('{} is already a Husk repository.'.format(path))
-    os.makedirs(config_path)
+from husk.repo import Repo
+from husk.config import HUSK_REPO_DIR
 
 
 parser = ArgumentParser()
-parser.add_argument('-p', '--path', default='.', help='Path of Husk ' \
-        'initialization. If no path is specified, the current working ' \
-        'directory will be used.')
+
+parser.add_argument('-r', '--repo', help='Path to Husk repository')
+parser.add_argument('-a', '--add-config', action='store_true',
+    help='Add a copy of the default config into the repo ' \
+        '{} directory.'.format(HUSK_REPO_DIR))
 
 
 def main(options):
-    init(options.path)
+    Repo.init(options.repo, options.add_config)
