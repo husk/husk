@@ -1,67 +1,67 @@
 # Husk
 
-**Husk** is an implementation of the Cornell Note-taking System. A page is
-composed of three areas including the **notes** area, the **cue** area and
-the **summary** area.
+Husk is an API and CLI written in Python for the Cornell
+Note-taking System.
 
-The _notes_ area is the dominant area and intended represent a lecture
-or some content as thoroughly as possible, but still concise.
+- [Install]
+- [CLI]
 
-The _cues_ area contains the reduced-down ideas derived from the notes.
-This should include keywords, brief statements, and questions about the
-notes.
-
-The _summary_ area contains, in your own words, a summarization of the
-notes and cues content.
-
-The general flow of filling out the page includes:
-
-1. Record
-2. Reduce
-3. Recite
-4. Reflect
-5. Review
-
-
-## Features
-
-- Interface that lays out the areas in the appropriate sizes
-- All areas support [MultiMarkdown](http://en.wikipedia.org/wiki/MultiMarkdown) syntax
-- Ability to switch between the various "R" modes
-- Full-text search across all documents
-- Tagging of documents for flat access as well as hierarchy representation
-- Export notes into a PDF for offline access or to print
-
-### Features for hackers
-
-- Each _document_ is a filesystem directory consisting of three files, `notes.md`,
-`cues.md`, and `summary.md` representing each section.
-- The flat files are stored and versioned using [Git](http://git-scm.com/)
-- You can clone your git repo, make changes and push the changes back. Changes
-will show up in the Web UI
-
-## Repo structure
-
-Documents are broken up by the date they are created:
+## Install
 
 ```
-repo/
-    2012/
-        06/
-            01/
-                bio101-lecture-1/
-                    cues.md
-                    notes.md
-                    summary.md
-                ...
-        07/
-            14/
-                cs212-lecture-3/
-                    cues.md
-                    notes.md
-                    summary.md
-                ...
+# using pip
+pip install husk
+
+# using easy_install
+easy_install husk
 ```
 
-Changes pushed back to the repository are validated prior to being merged to
-ensure everything is correctly formatted.
+## CLI
+
+### Terminology
+
+- **repository** - A directory containing bundles
+- **bundle** - A directory containing each component of a Cornell notes page
+including the `notes`, `cues` and `summary` files.
+
+### View Help
+
+Husk command help:
+
+```
+husk -h
+```
+
+Husk subcommand help:
+
+```
+husk [command] -h
+```
+
+### Initialize Repository
+
+Initializes a repository in the specified path.
+
+```
+husk init [PATH] [--add-config]
+```
+
+- `path` - Optional path for the repository to be created. Defaults
+to the current working directory.
+- `--add-config` or `-a` - Create a default config file in the
+repository
+
+The result will be the creation of a `.husk` directory in the
+specified path.
+
+### Add Bundle
+
+Add a _bundle_ to the specified repo.
+
+```
+husk add PATH [--repo REPO]
+```
+
+- `path` - A path to a non-existent directory
+- `--repo` or `-r` - Path to the Husk repo this bundle will be written to.
+If ommitted, it is assumed you are somewhere in a repo.

@@ -1,3 +1,3 @@
-"Husk implements an API and CLI for the Cornell note-taking system."
+"Husk is an API and CLI written in Python for the Cornell Note-taking System."
 
 __version__ = '0.1a'
