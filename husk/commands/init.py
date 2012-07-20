@@ -3,7 +3,12 @@ from husk.repo import Repo
 from husk.config import HUSK_REPO_DIR
 
 
-parser = ArgumentParser()
+__doc__ = """\
+Initialize a Husk repository in the current working directory (cwd)
+unless a `path` is specified.
+"""
+
+parser = ArgumentParser(description=__doc__)
 
 parser.add_argument('path', nargs='?', help='Path to Husk repository')
 parser.add_argument('-a', '--add-config', action='store_true',
