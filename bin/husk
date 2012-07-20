@@ -26,11 +26,10 @@ subparsers = parser.add_subparsers(dest='command')
 # Populate subparsers
 for key in commands:
     module = commands[key]
-    parents = []
-    if hasattr(module, 'parser'):
-        parents = [module.parser]
-    subparsers.add_parser(key, parents=parents, add_help=False,
+    subparser = subparsers.add_parser(key, add_help=False,
         formatter_class=ArgumentDefaultsHelpFormatter)
+    if hasattr(module, 'parser'):
+        subparser.__dict__.update(module.parser.__dict__)
 
 # Parse command-line arguments
 options = parser.parse_args()
