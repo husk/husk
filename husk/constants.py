@@ -8,7 +8,7 @@ HUSK_CONFIG_NAME = 'config'
 
 # The `bundles` file is local to a repository and stores relative paths to
 # all bundles in a repository.
-HUSK_BUNDLE_LOG_NAME = 'bundles'
+HUSK_NOTE_LOG_NAME = 'notes'
 
 # Absolute path to the default Husk config file
 HUSK_DEFAULT_CONFIG = path.abspath(path.join(path.dirname(__file__),
@@ -19,4 +19,4 @@ HUSK_DEFAULT_CONFIG = path.abspath(path.join(path.dirname(__file__),
 HUSK_USER_CONFIG = path.abspath(path.join(environ['HOME'], '.huskconfig'))
 
 # Names of files that are created within the bundle
-HUSK_BUNDLE_FILES = ('outline', 'cues', 'summary')
+HUSK_NOTE_FILES = ('outline', 'cues', 'summary')

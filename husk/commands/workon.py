@@ -7,7 +7,7 @@ from husk.decorators import cli
 
 
 __doc__ = """\
-Command to "work on" a bundle of files with the editor defined
+Command to "work on" a note of files with the editor defined
 in your Husk settings and falls back to what is set in the $EDITOR
 environment variable.
 """
@@ -21,9 +21,9 @@ def parser(options):
     # Initialize a repo
     repo = Repo(options.repo)
 
-    # Ensure the bundle exists before attempting to work on it
-    if options.path not in repo.bundles:
-        raise HuskError('{} bundle does not exist'.format(options.path))
+    # Ensure the note exists before attempting to work on it
+    if options.path not in repo.notes:
+        raise HuskError('{} note does not exist'.format(options.path))
 
     editor = repo.config.get('general', 'editor', os.environ.get('EDITOR'))
 
@@ -31,7 +31,7 @@ def parser(options):
         raise HuskError('Cannot open notes. The "general.editor" ' \
             'setting nor the $EDITOR environment variable are defined.')
 
-    args = shlex.split(editor) + repo.bundles[options.path].files
+    args = shlex.split(editor) + repo.notes[options.path].files
     retcode = subprocess.call(args)
 
     if retcode != 0:
@@ -41,6 +41,6 @@ def parser(options):
     # TODO Commit it
 
 
-parser.add_argument('path', help='Path to bundle directory')
+parser.add_argument('path', help='Path to note directory')
 parser.add_argument('-r', '--repo', default='.',
     help='Path to Husk repository')

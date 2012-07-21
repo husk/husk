@@ -1,17 +1,17 @@
 import os
 from .exceptions import HuskError
 from .constants import (HUSK_CONTROL_DIR, HUSK_CONFIG_NAME,
-    HUSK_BUNDLE_LOG_NAME)
+    HUSK_NOTE_LOG_NAME)
 from .config import Config
-from .bundle import BundleLog
+from .note import Notes
 
 
 class Repo(object):
     def __init__(self, path):
         self.path = os.path.abspath(path.rstrip('/'))
         self.config = Config(os.path.join(self.controldir, HUSK_CONFIG_NAME))
-        self.bundles = BundleLog(os.path.join(self.controldir,
-            HUSK_BUNDLE_LOG_NAME), extension=self.config.get('notes', 'extension'))
+        self.notes = Notes(os.path.join(self.controldir,
+            HUSK_NOTE_LOG_NAME), extension=self.config.get('general', 'extension'))
 
     @classmethod
     def isrepo(cls, path):
@@ -45,4 +45,4 @@ class Repo(object):
 
             if defaults:
                 Config.write_defaults(self.config.path)
-            self.bundles.todisk()
+            self.notes.todisk()

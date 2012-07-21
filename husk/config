@@ -1,6 +1,6 @@
 # vim:ft=dosini
 
-[notes]
+[general]
 
 # File extension of notes files
 extension = md
