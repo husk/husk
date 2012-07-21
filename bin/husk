@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import husk
-from husk.commands import init, add, workon, log, info, commit
+from husk.commands import init, add, workon, log, commit
 from collections import OrderedDict
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
@@ -11,7 +11,6 @@ commands = OrderedDict([
     ('add', add),
     ('workon', workon),
     ('commit', commit),
-    ('info', info),
     ('log', log),
 ])
 
@@ -26,18 +25,14 @@ subparsers = parser.add_subparsers(dest='command')
 # Populate subparsers
 for key in commands:
     module = commands[key]
+    # Add it by name
     subparser = subparsers.add_parser(key, add_help=False,
         formatter_class=ArgumentDefaultsHelpFormatter)
-    if hasattr(module, 'parser'):
-        subparser.__dict__.update(module.parser.__dict__)
+    # Update subparser with properties of module parser
+    subparser.__dict__.update(module.parser.__dict__)
 
 # Parse command-line arguments
 options = parser.parse_args()
 
-# Get appropriate module
-module = commands[options.command]
-
-try:
-    module.main(options)
-except Exception, e:
-    parser.error(e.message)
+# Get the module and call the main function
+commands[options.command].parser.handle(options)

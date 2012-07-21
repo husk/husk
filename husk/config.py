@@ -1,23 +1,15 @@
 import os
-from ConfigParser import ConfigParser
-from husk import utils
-from husk.exceptions import HuskError, HuskConfigError
-from husk.decorators import cached_property
+from ConfigParser import ConfigParser, NoOptionError
+from .constants import HUSK_DEFAULT_CONFIG, HUSK_USER_CONFIG
+from .exceptions import HuskError, HuskConfigError
+from .decorators import cached_property
 
-__all__ = ['ConfigParser', 'get_config']
+__all__ = ['Config']
 
-
-HUSK_REPO_DIR = '.husk'
-HUSK_CONFIG_NAME = 'config'
-
-HUSK_DEFAULT_CONFIG = os.path.abspath(os.path.join(os.path.dirname(__file__),
-    HUSK_CONFIG_NAME))
-HUSK_USER_CONFIG = os.path.join(os.environ['HOME'], '.huskconfig')
-HUSK_REPO_CONFIG = os.path.join(HUSK_REPO_DIR, HUSK_CONFIG_NAME)
-
+noop = lambda x: x
 
 # Map of config attributes and their intended types
-_config_types = {
+config_types = {
     'notifications': {
         'enabled': bool,
         'days': int,
@@ -27,64 +19,62 @@ _config_types = {
 }
 
 
-class HuskConfigSection(object):
-    pass
+class Config(object):
+    """The Husk configuration class.
 
-
-class HuskConfig(object):
+    If the init `path` exists and can be parsed, the settings will be
+    read in and used.
+    """
     def __init__(self, path):
-        self.path = path
-        self.repo_config = os.path.join(path, HUSK_REPO_CONFIG)
+        self.path = path.rstrip('/')
 
-        # Convert each section into an object and coerce set it locally
-        for name in self.parser.sections():
-            options = HuskConfigSection()
-            types = _config_types.get(name, {})
-            for key, value in self.parser.items(name):
-                if key in types:
-                    try:
-                        value = types[key](value)
-                    except (TypeError, ValueError):
-                        error = 'Invalid value in the "{}" section. ' \
-                            'Parameter "{}" should be type {}'
-                        raise HuskConfigError(error.format(name, key,
-                            types[key].__name__))
-                setattr(options, key.replace('-', '_'), value)
-            setattr(self, name.replace('-', '_'), options)
+    @classmethod
+    def write_defaults(cls, path):
+        "Write a copy of the default config to the specified file."
+        if os.path.exists(path):
+            raise HuskError('Cannot write default config, file already exists.')
+        copy = open(path, 'w')
+        default = open(HUSK_DEFAULT_CONFIG)
+        copy.write(default.read())
+        default.close()
+        copy.close()
 
     @cached_property
     def parser(self):
         parser = ConfigParser()
         # Right-most takes precedence..
-        parser.read([HUSK_DEFAULT_CONFIG, HUSK_USER_CONFIG, self.repo_config])
+        parser.read([HUSK_DEFAULT_CONFIG, HUSK_USER_CONFIG, self.path])
         return parser
 
+    def ondisk(self):
+        return os.path.exists(self.path)
 
-def init_config(path, add_config=False):
-    if not os.path.isdir(path):
-        raise HuskConfigError('{} is not a directory.'.format(path))
-    if os.path.exists(os.path.join(path, HUSK_REPO_DIR)):
-        raise HuskConfigError('{} is already a Husk repository.'.format(path))
+    def get(self, section, key, default=None):
+        types = config_types.get(section, {})
+        if self.parser.has_section(section):
+            try:
+                value = self.parser.get(section, key)
+                return types.get(key, noop)(value)
+            except NoOptionError:
+                pass
+            except (TypeError, ValueError):
+                raise HuskConfigError('Invalid value in the "{}" section. ' \
+                    'Parameter "{}" should be type {}'.format(section, key,
+                        types[key].__name__))
+        return default
 
-    os.makedirs(os.path.join(path, HUSK_REPO_DIR))
+    def set(self, section, key, value):
+        "Set a config setting."
+        if not self.parser.has_section(section):
+            self.parser.add_section(section)
+        self.parser.set(section, key, value)
 
-    if add_config:
-        default_config = open(HUSK_DEFAULT_CONFIG)
-        repo_config = open(HuskConfig(path).repo_config, 'w')
-        repo_config.write(default_config.read())
-        repo_config.close()
-        default_config.close()
+    def unset(self, section, key):
+        "Unset a config setting."
+        if self.parser.has_section(section):
+            return self.parser.remove_option(section, key)
+        return False
 
-
-def get_config(path=None):
-    """Returns a HuskConfig instance for the current repo.
-
-    This starts in the `cwd` and walks up the tree until the repo
-    config is found. This enables the flexibility of being in any
-    subdirectory and still be able to access the repo config.
-    """
-    path = utils.parent_dir(HUSK_REPO_DIR, path)
-    if path:
-        return HuskConfig(path)
-    raise HuskError('Not a Husk repository (or any of the parent '
-        'directories). Use `husk init` to create a new repository.')
+    def todisk(self):
+        with open(self.path) as config:
+            self.parser.write(config)

@@ -1,8 +1,11 @@
-from argparse import ArgumentParser
+from husk.decorators import cli
 
 
-parser = ArgumentParser()
+__doc__ = """\
+Show a log of commits.
+"""
 
 
-def main(options):
+@cli(description=__doc__)
+def parser(options):
     pass

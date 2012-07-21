@@ -1,8 +1,10 @@
-from argparse import ArgumentParser
+from husk.decorators import cli
+
+__doc__ = """\
+Commit a change to one or more bundles.
+"""
 
 
-parser = ArgumentParser()
-
-
-def main(options):
+@cli(description=__doc__)
+def parser(options):
     pass

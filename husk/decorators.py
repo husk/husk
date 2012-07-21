@@ -1,3 +1,6 @@
+from argparse import ArgumentParser
+
+
 def cached_property(func):
     cach_attr = '_{}'.format(func.__name__)
 
@@ -9,3 +12,15 @@ def cached_property(func):
                 setattr(self, cach_attr, value)
         return getattr(self, cach_attr, None)
     return wrap
+
+
+def cli(*args, **kwargs):
+    def decorator(func):
+        class Parser(ArgumentParser):
+            def handle(self, *args, **kwargs):
+                try:
+                    func(*args, **kwargs)
+                except Exception, e:
+                    self.error(e.message)
+        return Parser(*args, **kwargs)
+    return decorator
