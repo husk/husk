@@ -40,7 +40,7 @@ class Notes(object):
             key = key.rstrip('/')
         return self._notes[key]
 
-    def add(self, note):
+    def add(self, note, defer=False):
         if not isinstance(note, Note):
             note = Note(note, self.extension)
 
@@ -53,8 +53,9 @@ class Notes(object):
         # If on disk.. log immediately
         if self.ondisk():
             note.todisk()
-            with open(self.path, 'a') as log:
-                log.write('{}\n'.format(note.path))
+            if not defer:
+                with open(self.path, 'a') as log:
+                    log.write('{}\n'.format(note.path))
 
     def move(self, note, target, defer=False):
         """Moves a note from it's current path to a different path."
