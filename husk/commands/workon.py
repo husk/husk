@@ -26,7 +26,8 @@ def parser(options):
     # Initialize a repo
     repo = Repo(options.repo)
 
-    path = os.path.relpath(os.path.join(os.getcwd(), options.path), repo.path)
+    # Adjust path
+    path = repo.relpath(options.path)
 
     # Ensure the note exists before attempting to work on it
     if path not in repo.notes:
@@ -44,8 +45,6 @@ def parser(options):
     if retcode != 0:
         raise HuskError('Editor had a non-successful exit. Nothing has been ' \
             'committed. To manually commit, use `husk commit`.')
-
-    # TODO Commit it
 
 
 parser.add_argument('path', help='Path to note directory')

@@ -1,4 +1,3 @@
-import os
 from husk.repo import Repo
 from husk.exceptions import HuskError
 from husk.decorators import cli
@@ -24,9 +23,8 @@ def parser(options):
     repo = Repo(options.repo)
     for path in options.path:
         # Ensure the path is defined relative to the repo
-        path = os.path.relpath(os.path.join(os.getcwd(), path), repo.path)
-        # Create a note
-        repo.notes.add(path)
+        repo.notes.add(repo.relpath(path), defer=True)
+    repo.notes.todisk()
 
 
 parser.add_argument('path', nargs='*', help='Path to note directory')

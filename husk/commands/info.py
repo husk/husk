@@ -1,4 +1,3 @@
-import os
 from husk.repo import Repo
 from husk.exceptions import HuskError
 from husk.decorators import cli
@@ -26,7 +25,7 @@ def parser(options):
         print('{} notes'.format(len(repo.notes)))
         print('-' * 5)
         for key in repo.notes:
-            print(os.path.join(os.path.relpath(repo.path, '.'), key))
+            print(repo.relpath(key))
 
 
 parser.add_argument('stats', nargs='*', default='notes',

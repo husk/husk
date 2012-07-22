@@ -45,6 +45,10 @@ class Repo(object):
     def controldir(self):
         return os.path.join(self.path, HUSK_CONTROL_DIR)
 
+    def relpath(self, path):
+        "Returns a path relative to this repo given `path`."
+        return os.path.relpath(os.path.join(os.getcwd(), path), self.path)
+
     def ondisk(self):
         "Returns whether this repo exists on disk."
         return os.path.exists(self.controldir)
