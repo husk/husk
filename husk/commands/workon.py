@@ -15,15 +15,22 @@ environment variable.
 
 @cli(description=__doc__)
 def parser(options):
+    # No repo is explicitly defined, so find the closest one
+    if not options.repo:
+        options.repo = Repo.findrepo()
+
     # Ensure this is a repository
     if not Repo.isrepo(options.repo):
         raise HuskError('{} is not a Husk repo'.format(options.repo))
+
     # Initialize a repo
     repo = Repo(options.repo)
 
+    path = os.path.relpath(os.path.join(os.getcwd(), options.path), repo.path)
+
     # Ensure the note exists before attempting to work on it
-    if options.path not in repo.notes:
-        raise HuskError('{} note does not exist'.format(options.path))
+    if path not in repo.notes:
+        raise HuskError('{} note does not exist'.format(path))
 
     editor = repo.config.get('general', 'editor', os.environ.get('EDITOR'))
 
@@ -31,7 +38,7 @@ def parser(options):
         raise HuskError('Cannot open notes. The "general.editor" ' \
             'setting nor the $EDITOR environment variable are defined.')
 
-    args = shlex.split(editor) + repo.notes[options.path].files
+    args = shlex.split(editor) + repo.notes[path].files
     retcode = subprocess.call(args)
 
     if retcode != 0:
@@ -42,5 +49,5 @@ def parser(options):
 
 
 parser.add_argument('path', help='Path to note directory')
-parser.add_argument('-r', '--repo', default='.',
-    help='Path to Husk repository')
+parser.add_argument('files', nargs='*', help='Filenames to be opened')
+parser.add_argument('-r', '--repo', help='Path to Husk repository')
