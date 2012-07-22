@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import husk
-from husk.commands import init, add, workon, info
+from husk.commands import init, add, move, workon, info
 from collections import OrderedDict
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
@@ -9,6 +9,7 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 commands = OrderedDict([
     ('init', init),
     ('add', add),
+    ('move', move),
     ('workon', workon),
     ('info', info),
 ])
