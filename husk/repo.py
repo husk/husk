@@ -19,6 +19,18 @@ class Repo(object):
         return os.path.exists(os.path.join(path, HUSK_CONTROL_DIR))
 
     @classmethod
+    def findrepo(cls):
+        path = os.getcwd()
+        while True:
+            if Repo.isrepo(path):
+                return path
+            # No where else to go, break the loop
+            if path == '/':
+                raise HuskError('Repo does not exist in current directory ' \
+                    'or any parent directory.')
+            path = os.path.dirname(path)
+
+    @classmethod
     def init(cls, path, defaults=False):
         "Shorthand method for initializing and writing to disk."
         # Ensure this is not an existing repo
