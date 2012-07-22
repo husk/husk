@@ -57,6 +57,29 @@ class Notes(object):
                 with open(self.path, 'a') as log:
                     log.write('{}\n'.format(note.path))
 
+    def remove(self, note, delete=False, defer=False):
+        """Removes a note from the repo.
+
+        If `rmdisk` is True, the note is removed from disk as well.
+        If `defer` is True, the notelog will not be updated. This
+        is useful to prevent redundant IO in a tight loop.
+        """
+        if not isinstance(note, Note):
+            note = Note(note, self.extension)
+
+        if note.path not in self._notes:
+            raise HuskError('{} note does not exist in this ' \
+                'repo.'.format(note.path))
+
+        del self._notes[note.path]
+
+        # If on disk.. log immediately
+        if self.ondisk():
+            if delete:
+                note.rmdisk()
+            if not defer:
+                self.todisk()
+
     def move(self, note, target, defer=False):
         """Moves a note from it's current path to a different path."
 
@@ -127,6 +150,19 @@ class Note(object):
             path = os.path.join(self.path, '{}.{}'.format(name, self.extension))
             if not os.path.exists(path):
                 open(path, 'w').close()
+
+    def rmdisk(self):
+        # Remove known files
+        for name in self.files:
+            os.remove(name)
+
+        # Attempt to remove all directories including leaf. OSError is
+        # only raised if the leaf cannot be removed. Errors for attempting
+        # to remove parent directories are ignored
+        try:
+            os.removedirs(self.path)
+        except OSError:
+            print('{} is not empty, not removing'.format(self.path))
 
     def mvdisk(self, target):
         if self.ondisk():
