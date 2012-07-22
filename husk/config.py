@@ -25,8 +25,10 @@ class Config(object):
     If the init `path` exists and can be parsed, the settings will be
     read in and used.
     """
-    def __init__(self, path):
-        self.path = path.rstrip('/')
+    def __init__(self, path=None):
+        if isinstance(path, basestring):
+            path = path.rstrip('/')
+        self.path = path
 
     @classmethod
     def write_defaults(cls, path):
@@ -65,16 +67,26 @@ class Config(object):
 
     def set(self, section, key, value):
         "Set a config setting."
+        if self.path is None:
+            raise HuskError('Cannot set config. No repo config defined.')
         if not self.parser.has_section(section):
             self.parser.add_section(section)
         self.parser.set(section, key, value)
 
     def unset(self, section, key):
         "Unset a config setting."
+        if self.path is None:
+            raise HuskError('Cannot unset config. No repo config defined.')
         if self.parser.has_section(section):
             return self.parser.remove_option(section, key)
         return False
 
     def todisk(self):
+        if self.path is None:
+            raise HuskError('Cannot write to disk. No repo config defined.')
         with open(self.path) as config:
             self.parser.write(config)
+
+
+def default_config():
+    return Config()
