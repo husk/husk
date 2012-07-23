@@ -4,7 +4,7 @@ from .constants import HUSK_DEFAULT_CONFIG, HUSK_USER_CONFIG
 from .exceptions import HuskError, HuskConfigError
 from .decorators import cached_property
 
-__all__ = ['Config']
+__all__ = ('Config', 'default_config')
 
 noop = lambda x: x
 

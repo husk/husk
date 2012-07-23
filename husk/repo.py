@@ -5,6 +5,8 @@ from .constants import (HUSK_CONTROL_DIR, HUSK_CONFIG_NAME,
 from .config import Config
 from .note import Notes
 
+__all__ = ('Repo',)
+
 
 class Repo(object):
     def __init__(self, path):

@@ -4,6 +4,8 @@ from .config import default_config
 from .constants import HUSK_NOTE_FILES
 from .exceptions import HuskError
 
+__all__ = ('Notes', 'Note')
+
 
 class Notes(object):
     "dict-like container for managing multiple notes."
