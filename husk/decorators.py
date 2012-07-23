@@ -22,5 +22,10 @@ def cli(*args, **kwargs):
                     func(*args, **kwargs)
                 except Exception, e:
                     self.error(e.message)
+
+            # No catching of exceptions
+            def handle_raw(self, *args, **kwargs):
+                func(*args, **kwargs)
+
         return Parser(*args, **kwargs)
     return decorator
