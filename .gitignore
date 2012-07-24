@@ -1,5 +1,6 @@
 *.sw[po]
 *.py[co]
 \.husk
+dist
 .coverage
 docs/coverage
