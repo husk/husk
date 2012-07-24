@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = husk
+
+[report]
+omit =
+exclude_lines =
+
+[html]
+directory = docs/coverage

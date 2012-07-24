@@ -1,3 +1,5 @@
 *.sw[po]
 *.py[co]
 \.husk
+.coverage
+docs/coverage

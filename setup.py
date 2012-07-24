@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 kwargs = {
     'packages': find_packages(),
     'include_package_data': True,
+    'test_suite': 'tests',
     'name': 'husk',
     'version': husk.__version__,
     'author': 'Byron Ruth, Patrick Henning',
