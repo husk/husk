@@ -1,10 +1,8 @@
 import os
 import shlex
 import subprocess
-from husk.repo import Repo
-from husk.exceptions import HuskError
+from husk import Repo, HuskError
 from husk.decorators import cli
-
 
 __doc__ = """\
 Command to "work on" a note of files with the editor defined
@@ -15,16 +13,8 @@ environment variable.
 
 @cli(description=__doc__)
 def parser(options):
-    # No repo is explicitly defined, so find the closest one
-    if not options.repo:
-        options.repo = Repo.findrepo()
-
-    # Ensure this is a repository
-    if not Repo.isrepo(options.repo):
-        raise HuskError('{} is not a Husk repo'.format(options.repo))
-
-    # Initialize a repo
-    repo = Repo(options.repo)
+    # Find the nearest repo
+    repo = Repo.findrepo(options.repo)
 
     # Adjust path
     path = repo.relpath(options.path)

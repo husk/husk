@@ -1,5 +1,4 @@
-from husk.repo import Repo
-from husk.exceptions import HuskError
+from husk import Repo
 from husk.decorators import cli
 
 __doc__ = """\
@@ -11,21 +10,16 @@ the repository. Existing files of the same name will not be overwritten.
 
 @cli(description=__doc__)
 def parser(options):
-    # No repo is explicitly defined, so find the closest one
-    if not options.repo:
-        options.repo = Repo.findrepo()
+    # Find the nearest repo
+    repo = Repo.findrepo(options.repo)
 
-    # Ensure this is a repository
-    if not Repo.isrepo(options.repo):
-        raise HuskError('{} is not a Husk repo'.format(options.repo))
-
-    # Initialize a repo
-    repo = Repo(options.repo)
     for path in options.path:
         # Ensure the path is defined relative to the repo
         repo.notes.add(repo.relpath(path), defer=True)
     repo.notes.todisk()
 
 
-parser.add_argument('path', nargs='*', help='Path to note directory')
+parser.add_argument('path', nargs='*', help='Paths to note directory')
 parser.add_argument('-r', '--repo', help='Path to Husk repository')
+parser.add_argument('-f', '--force', action='store_true',
+    help='Force an existing unregistered note to be added to the repository')

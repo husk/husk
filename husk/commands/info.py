@@ -1,7 +1,5 @@
-from husk.repo import Repo
-from husk.exceptions import HuskError
+from husk import Repo
 from husk.decorators import cli
-
 
 __doc__ = """\
 Shows various info about the repo.
@@ -10,16 +8,8 @@ Shows various info about the repo.
 
 @cli(description=__doc__)
 def parser(options):
-    # No repo is explicitly defined, so find the closest one
-    if not options.repo:
-        options.repo = Repo.findrepo()
-
-    # Ensure this is a repository
-    if not Repo.isrepo(options.repo):
-        raise HuskError('{} is not a Husk repo'.format(options.repo))
-
-    # Initialize a repo
-    repo = Repo(options.repo)
+    # Find the nearest repo
+    repo = Repo.findrepo(options.repo)
 
     if 'notes' in options.stats:
         print('{} notes'.format(len(repo.notes)))

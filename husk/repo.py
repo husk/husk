@@ -21,11 +21,11 @@ class Repo(object):
         return os.path.exists(os.path.join(path, HUSK_CONTROL_DIR))
 
     @classmethod
-    def findrepo(cls):
-        path = os.getcwd()
+    def findrepo(cls, path=None):
+        path = path or os.getcwd()
         while True:
             if Repo.isrepo(path):
-                return path
+                return Repo(path)
             # No where else to go, break the loop
             if path == '/':
                 raise HuskError('Repo does not exist in current directory ' \
