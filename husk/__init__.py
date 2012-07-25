@@ -6,4 +6,4 @@ from .config import *
 from .note import *
 from .repo import *
 
-__version__ = '0.1'
+__version__ = '0.1.1'
