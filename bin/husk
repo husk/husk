@@ -29,8 +29,12 @@ for key in commands:
     # Add it by name
     subparser = subparsers.add_parser(key, add_help=False,
         formatter_class=ArgumentDefaultsHelpFormatter)
-    # Update subparser with properties of module parser
+    # Update subparser with properties of module parser. Keep
+    # track of the generated `prog` since it is relative to
+    # the top-level command
+    prog = subparser.prog
     subparser.__dict__.update(module.parser.__dict__)
+    subparser.prog = prog
 
 # Parse command-line arguments
 options = parser.parse_args()

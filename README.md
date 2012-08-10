@@ -38,7 +38,7 @@ optional arguments:
 ### Initialize Repository
 
 ```
-usage: husk [-h] [-d] [path]
+usage: husk init [-h] [-d] [path]
 
 Initialize a Husk repository in the current working directory (cwd) unless a
 `path` is specified.
@@ -58,7 +58,7 @@ specified path.
 ### Add Note
 
 ```
-usage: husk [-h] [-r REPO] [-f] [path [path ...]]
+usage: husk add [-h] [-r REPO] [-f] [path [path ...]]
 
 Adds a note to the repository specified by it's `path`. If `path` is an
 existing directory/note, pass `--force` to register it with the repository.
@@ -77,7 +77,7 @@ optional arguments:
 ### Move a Note
 
 ```
-usage: husk [-h] [-r REPO] src dest
+usage: husk move [-h] [-r REPO] src dest
 
 Moves an existing note to a new path.
 
@@ -93,7 +93,7 @@ optional arguments:
 ### Remove a Note
 
 ```
-usage: husk [-h] [-r REPO] [-d] [path [path ...]]
+usage: husk remove [-h] [-r REPO] [-d] [path [path ...]]
 
 Remove a note from the specified repo. By default note files are not deleted.
 
@@ -109,7 +109,7 @@ optional arguments:
 ### Workon a Note
 
 ```
-usage: husk [-h] [-r REPO] path [files [files ...]]
+usage: husk workon [-h] [-r REPO] path [files [files ...]]
 
 Command to "work on" a note of files with the editor defined in your Husk
 settings and falls back to what is set in the $EDITOR environment variable.
@@ -126,7 +126,7 @@ optional arguments:
 ### Repo Info
 
 ```
-usage: husk [-h] [-r REPO] [{notes} [{notes} ...]]
+usage: husk info [-h] [-r REPO] [{notes} [{notes} ...]]
 
 Shows various info about the repo.
 
