@@ -35,6 +35,8 @@
 <p>Husk is an API and CLI written in Python for the Cornell
 Note-taking System.</p>
 
+<p>Stable: <a href="http://pypi.python.org/pypi/husk/">v0.1.2</a></p>
+
 <h2>Install</h2>
 
 <pre><code># using pip
@@ -64,7 +66,7 @@ optional arguments:
 
 <h3>Initialize Repository</h3>
 
-<pre><code>usage: husk [-h] [-d] [path]
+<pre><code>usage: husk init [-h] [-d] [path]
 
 Initialize a Husk repository in the current working directory (cwd) unless a
 `path` is specified.
@@ -83,7 +85,7 @@ specified path.</p>
 
 <h3>Add Note</h3>
 
-<pre><code>usage: husk [-h] [-r REPO] [-f] [path [path ...]]
+<pre><code>usage: husk add [-h] [-r REPO] [-f] [path [path ...]]
 
 Adds a note to the repository specified by it's `path`. If `path` is an
 existing directory/note, pass `--force` to register it with the repository.
@@ -101,7 +103,7 @@ optional arguments:
 
 <h3>Move a Note</h3>
 
-<pre><code>usage: husk [-h] [-r REPO] src dest
+<pre><code>usage: husk move [-h] [-r REPO] src dest
 
 Moves an existing note to a new path.
 
@@ -116,7 +118,7 @@ optional arguments:
 
 <h3>Remove a Note</h3>
 
-<pre><code>usage: husk [-h] [-r REPO] [-d] [path [path ...]]
+<pre><code>usage: husk remove [-h] [-r REPO] [-d] [path [path ...]]
 
 Remove a note from the specified repo. By default note files are not deleted.
 
@@ -131,7 +133,7 @@ optional arguments:
 
 <h3>Workon a Note</h3>
 
-<pre><code>usage: husk [-h] [-r REPO] path [files [files ...]]
+<pre><code>usage: husk workon [-h] [-r REPO] path [files [files ...]]
 
 Command to "work on" a note of files with the editor defined in your Husk
 settings and falls back to what is set in the $EDITOR environment variable.
@@ -147,7 +149,7 @@ optional arguments:
 
 <h3>Repo Info</h3>
 
-<pre><code>usage: husk [-h] [-r REPO] [{notes} [{notes} ...]]
+<pre><code>usage: husk info [-h] [-r REPO] [{notes} [{notes} ...]]
 
 Shows various info about the repo.
 
@@ -163,7 +165,17 @@ optional arguments:
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-		
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-34049130-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
