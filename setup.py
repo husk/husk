@@ -12,7 +12,7 @@ kwargs = {
     'description': husk.__doc__,
     'license': 'BSD',
     'keywords': 'note-taking Cornell',
-    'url': 'https://bruth.github.com/husk/',
+    'url': 'http://husk.github.com/husk/',
     'scripts': ['bin/husk'],
     'classifiers': [
         'Development Status :: 4 - Beta',
