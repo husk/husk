@@ -14,8 +14,8 @@ def parser(options):
     if 'notes' in options.stats:
         print('{} notes'.format(len(repo.notes)))
         print('-' * 5)
-        for key in repo.notes:
-            print(repo.relpath(key))
+        for note in repo.notes:
+            print(repo.relpath(note.path))
 
 
 parser.add_argument('stats', nargs='*', default='notes',

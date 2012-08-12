@@ -24,7 +24,7 @@ class Notes(object):
     def __iter__(self):
         "Proxy to internal notes dict"
         for key in self._notes:
-            yield key
+            yield self._notes[key]
 
     def __len__(self):
         "Proxy to internal notes dict"
@@ -34,6 +34,8 @@ class Notes(object):
         "Proxy to internal notes dict"
         if isinstance(key, basestring):
             key = key.rstrip('/')
+        elif isinstance(key, Note):
+            key = note.path
         return key in self._notes
 
     def __getitem__(self, key):
